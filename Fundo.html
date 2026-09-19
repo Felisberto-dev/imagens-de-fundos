@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeria de Fundos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+body { background: #0f172a; color: white; }
+
+header { text-align: center; padding: 30px; background: #1e3a8a; }
+header h1 { margin-bottom: 10px; }
+
+.container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+.card { background: #1e293b; border-radius: 10px; overflow: hidden; transition: 0.3s; }
+.card:hover { transform: scale(1.03); }
+.card img { width: 100%; height: 200px; object-fit: cover; }
+.card div { padding: 15px; text-align: center; }
+.card a { display: inline-block; background: #25D366; color: black; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 10px; }
+
+.paginacao { text-align: center; margin-top: 30px; }
+.paginacao button { background: #334155; color: white; border: none; padding: 10px 15px; margin: 0 5px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+.paginacao button.ativo { background: #25D366; color: black; }
+.paginacao button:hover { background: #475569; }
+
+  @keyframes pulse{
+  0%{transform:scale(1.1);}
+  50%{transform:scale(1);}
+ 100%{transform:scale(1.1);}
+}
+
+</style>
+<body>
+
+  <header>
+    <h1>🖼️ Galeria de Fundos</h1>
+    <p>Baixe imagens para usar de fundo</p>
+  </header>
+
+  <main class="container">
+    <div id="galeria" class="grid"></div>
+    <div id="paginacao" class="paginacao"></div>
+  </main>
+  <script>
+  // Lista de imagens de fundo. Pode trocar pelos links que quiser
+const imagens = [
+  { id: 1, nome: "Fundo Abstrato ", url: "God.jpg" },
+  { id: 2, nome: "fundo de stocks", url: "Beautifull.jpg" },
+  { id: 3, nome: "Fundo space", url: "space.jpg" },
+  { id: 4, nome: "Fundo Tecnologia ", url: "fundo1.jpg" },
+  { id: 5, nome: "Fundo Arte ", url: "close.jpg" },
+  { id: 6, nome: "Fundo ao ar livre ", url: "foto1.jpg" },
+  { id: 7, nome: "Fundo transplante ", url: "fundo2.jpg" },
+  { id: 8, nome: "Fundo Gradiente ", url: "pixel.jpg" },
+  { id: 9, nome: "Fundo claro ", url: "fundo3.jpeg" },
+  { id: 10, nome: "Fundo brilhante", url: "fundo4.jpeg" },
+  { id: 11, nome: "Fundo de rosa ", url: "fundo5.jpeg" },
+  { id: 12, nome: "Fundo gradiante ", url: "fundo6.jpeg" },
+  
+  {id: 13, nome:"paisagem natural", url:"fundo7.jpeg"},
+   {id: 14, nome:"paisagem natural2", url:"big1.jpeg"},
+   {id: 15, nome:"fundo para sites educacionais", url:"big2.jpeg"},
+  
+ {id: 16, nome:"paisagem natural3", url:"big3.jpeg"},
+  
+ {id: 17, nome:"fundo da praia", url:"big4.jpeg"},
+   {id: 18, nome:"fundo do Mar ", url:"big5.jpeg"},
+   {id: 19, nome:"fundo do horizonte", url:"big7.jpeg"},
+   {id: 20, nome:"paisagem das estrelas", url:"big6.jpeg"},
+   {id: 21, nome:"paisagem das rochas", url:"big8.jpeg"},
+   {id: 22, nome:"fundo animado", url:"big9.jpeg"},
+   {id: 23, nome:"fundo colorido", url:"big10.jpeg"},
+   {id: 24, nome:"fundo animado2", url:"big11.jpeg"},
+   {id: 25, nome:"fundo preto", url:"big12.jpeg"},
+ {id: 26, nome:"paisagem natural 2 ", url:"big13.jpeg"},
+   {id: 27, nome:"paisagem da cidade", url:"pixel2.jpeg"},
+   {id: 28, nome:"fundo 4 ", url:"pixel3.jpeg"},
+  {id: 29, nome:"paisagem 5 ", url:"pixel4.jpeg"},
+   {id: 30, nome:"paisagem 6 ", url:"pixel5.jpeg"},
+
+
+
+
+
+];
+
+let paginaAtual = 1;
+const imagensPorPagina = 5; // 6 imagens por página
+
+function mostrarImagens() {
+  const galeria = document.getElementById('galeria');
+  galeria.innerHTML = '';
+
+  const inicio = (paginaAtual - 1) * imagensPorPagina;
+  const fim = inicio + imagensPorPagina;
+  const imagensDaPagina = imagens.slice(inicio, fim);
+
+  imagensDaPagina.forEach(img => {
+    galeria.innerHTML += `
+      <div class="card">
+        <img src="${img.url}" alt="${img.nome}">
+        <div>
+          <h3>${img.nome}</h3>
+          <a href="${img.url}" download="${img.nome}.jpg" target="_blank">Baixar Imagem</a>
+        </div>
+      </div>
+    `;
+  });
+
+  criarBotoesPaginacao();
+}
+
+function criarBotoesPaginacao() {
+  const paginacao = document.getElementById('paginacao');
+  paginacao.innerHTML = '';
+  
+  const totalPaginas = Math.ceil(imagens.length / imagensPorPagina);
+
+  // Botão Anterior
+  if(paginaAtual > 1) {
+    paginacao.innerHTML += `<button onclick="mudarPagina(${paginaAtual - 1})">«</button>`;
+  }
+
+  // Números 1, 2, 3...
+  for(let i = 1; i <= totalPaginas; i++) {
+    paginacao.innerHTML += `<button onclick="mudarPagina(${i})" class="${i === paginaAtual ? 'ativo' : ''}">${i}</button>`;
+  }
+
+  // Botão Próximo
+  if(paginaAtual < totalPaginas) {
+    paginacao.innerHTML += `<button onclick="mudarPagina(${paginaAtual + 1})">»</button>`;
+  }
+}
+
+function mudarPagina(pagina) {
+  paginaAtual = pagina;
+  mostrarImagens();
+  window.scrollTo({top: 0, behavior: 'smooth'}); // sobe suave
+}
+
+// Inicia
+mostrarImagens();
+  </script>
+ 
+
+  
+  
+  
+  
+  <div style="text-align:center; animation:pulse 1.5s ease-in-out infinite;
+     padding:15px;">
+  <a style=" 
+  text-decoration: none;
+  border: solid blue 8px;
+  border-radius:8px;
+  background: blue;
+  color:white;
+  font-size: 15px;
+  display: inline-block;
+  padding: 4px 8px;
+    " href="index.html">
+      Voltar para pagina inicial
+    </a>
+  </div>
+</body>
+</html>
