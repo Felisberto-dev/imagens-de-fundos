@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="styles/style.css"/>
   <title>Site de downloads</title>
@@ -41,7 +42,7 @@ h2{
   
 }
 header{
-  background-image: url('../img/big7.jpeg');
+  background-image: url('big7.jpeg');
   opacity: 8px;
   display:block;
   padding: 15px 25px;
@@ -115,9 +116,21 @@ button{
   100%{transform: translatey(0px);}
 }
 body{
-     font-size:16px;
+     
+  margin: 0 auto;
+  max-width: 600px; 
+  padding: 20px;
+  color: white;
+  font-family:arial;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
+  html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-size: 16px;
+}
   </style>
   
 </head>
